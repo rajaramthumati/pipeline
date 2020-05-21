@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    tools {
+        maven "maven363"
+    }
+    triggers {
+        pollSCM('0 0 * * *')
+    }
+    stages {
+        stage("git checkout") {
+            steps {
+                git credentialsId: 'personal-github-creds', url: 'https://github.com/rajaramthumati/javaWeb1.git'
+            }
+        }
+        stage("Maven build") {
+            steps {
+                sh "mvn clean package"
+            }
+        }
+    }
+    
+}
