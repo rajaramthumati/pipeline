@@ -7,7 +7,7 @@ pipeline {
         pollSCM('0 0 * * *')
     }
     stages {
-        stage("git checkout") {
+        stage("git clone") {
             steps {
                 git credentialsId: 'personal-github-creds', url: 'https://github.com/rajaramthumati/javaWeb1.git'
             }
