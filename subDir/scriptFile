@@ -10,6 +10,9 @@ pipeline {
         stage("git checkout") {
             steps {
                 git credentialsId: 'personal-github-creds', url: 'https://github.com/rajaramthumati/javaWeb1.git'
+                script {
+                    getRequestToUrl()
+                }
             }
         }
         stage("Maven build") {
@@ -19,4 +22,20 @@ pipeline {
         }
     }
     
+}
+
+
+def getRequestToUrl() {
+    def url = new URL('http://18.189.29.176:8080/')
+    def connection = url.openConnection()
+    connection.requestMethod = 'GET'
+    println connection.responseCode
+    if (connection.responseCode == 200) {
+        println connection.content.text
+        println connection.contentType
+        println connection.lastModified
+        connection.headerFields.each { println "> ${it}"}
+    } else {
+        println "Connection failed"
+    }
 }
